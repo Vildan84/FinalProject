@@ -1,4 +1,8 @@
-package org.example;
+package csv;
+
+import jfreechart.Chart;
+import jfreechart.XYDataset;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import java.util.LinkedList;
 
@@ -8,13 +12,16 @@ public class Main {
 
         ReadCSV r = new ReadCSV();
         CreateColumn col = new CreateColumn();
+        XYDataset data = new XYDataset();
+        Chart chart = new Chart();
         String file = "test.CSV";
         LinkedList<String[]> array = r.ReadFile(file);
         LinkedList<Column> list = col.Columns(array);
 
-        for(Column c: list){
-            c.printColumn();
-        }
+        LinkedList<XYSeriesCollection> dataset = data.createDataset(list);
+        chart.chart(dataset, list);
+
+
 
 
 

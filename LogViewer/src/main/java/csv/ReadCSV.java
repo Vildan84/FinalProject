@@ -1,4 +1,4 @@
-package org.example;
+package csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
