@@ -28,8 +28,8 @@ public class Main {
 
         LinkedList<Column> list = col.Columns(array);
 
-        LinkedList<XYSeriesCollection> dataset = data.createDataset(list);
-        chart.chart(dataset, list);
+        XYSeriesCollection dataset = data.createDataset(list);
+        chart.chart(dataset);
 
 //        MyBot bot = new MyBot();
 //

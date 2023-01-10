@@ -18,42 +18,43 @@ import java.util.LinkedList;
 
 public class Chart {
 
-    public void chart(LinkedList<XYSeriesCollection> col, LinkedList<Column> list) throws IOException {
+    public void chart(XYSeriesCollection dataset) throws IOException {
 
+        String name = "name";
+        String value = "value";
 
-        for(int i = 0; i < col.size(); i++){
-            String name = list.get(i).getName();
-            String value = list.get(i).getValue();
-
-            JFreeChart ch = ChartFactory.createXYLineChart(name, "Value", value, col.get(i),
-                    PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart ch = ChartFactory.createXYLineChart(name, "Value", value, dataset,
+                PlotOrientation.VERTICAL, true, true, false);
 
 //            File file = new File("Chart" + i);
 //            ChartUtils.saveChartAsPNG(file, ch, 1300, 800);
 
-            XYPlot plot = ch.getXYPlot();
-            var renderer = new XYLineAndShapeRenderer();
-            renderer.setSeriesPaint(0, Color.BLUE);
-            renderer.setSeriesStroke(0, new BasicStroke(5.0f));
+        XYPlot plot = ch.getXYPlot();
+        var renderer = new XYLineAndShapeRenderer();
+        renderer.setSeriesPaint(0, Color.BLUE);
+        renderer.setSeriesStroke(0, new BasicStroke(5.0f));
 
-            renderer.setSeriesPaint(1, Color.RED);
-            renderer.setSeriesStroke(1, new BasicStroke(5.0f));
+        renderer.setSeriesPaint(1, Color.RED);
+        renderer.setSeriesStroke(1, new BasicStroke(5.0f));
 
-            plot.setRenderer(renderer);
-            plot.setBackgroundPaint(Color.white);
-            plot.setForegroundAlpha(0.9f);
-            plot.setRangeGridlinePaint(Color.red);
-            plot.setDomainGridlinesVisible(true);
-            plot.setDomainGridlinePaint(Color.black);
-            plot.setDomainGridlinesVisible(true);
+        renderer.setSeriesPaint(2, Color.BLACK);
+        renderer.setSeriesStroke(2, new BasicStroke(5.0f));
 
-            ch.getLegend().setFrame(BlockBorder.NONE);
+        renderer.setSeriesPaint(3, Color.GREEN);
+        renderer.setSeriesStroke(3, new BasicStroke(5.0f));
 
-            ChartFrame frame1 = new ChartFrame("lines", ch);
-            frame1.setVisible(true);
-            frame1.setSize(1300, 800);
+        plot.setRenderer(renderer);
+        plot.setBackgroundPaint(Color.white);
+        plot.setForegroundAlpha(0.9f);
+        plot.setRangeGridlinePaint(Color.red);
+        plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(Color.black);
+        plot.setDomainGridlinesVisible(true);
 
-        }
+        ch.getLegend().setFrame(BlockBorder.NONE);
 
+        ChartFrame frame1 = new ChartFrame("lines", ch);
+        frame1.setVisible(true);
+        frame1.setSize(1300, 800);
     }
 }
