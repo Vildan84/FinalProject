@@ -1,7 +1,5 @@
 package org.example.csv;
 
-import org.example.csv.Column;
-
 import java.util.LinkedList;
 
 public class CreateColumn {
@@ -17,13 +15,6 @@ public class CreateColumn {
                 for(int i = 2; i < arr.size(); i++){
                     if(arr.get(i)[index].matches("-?\\d+(\\.\\d+)?")){
                         temp.add(Double.parseDouble(arr.get(i)[index]));
-                    }
-                    else{
-                        String s = arr.get(i)[index];
-                        if(s.contains(" ")){
-                            int e = s.indexOf(" ");
-                            temp.add(Double.parseDouble(s.substring(0, e)));
-                        }
                     }
                 }
                 list.add(new Column(name, value, temp));

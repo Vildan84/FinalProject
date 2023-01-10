@@ -4,39 +4,33 @@ import org.example.csv.Column;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class XYDataset {
 
     public LinkedList<XYSeriesCollection> createDataset(LinkedList<Column> list){
 
-        LinkedList<Double> rpm = new LinkedList<>();
+        LinkedList<Integer> xLine = new LinkedList<>();
         LinkedList<XYSeriesCollection> datasetCol = new LinkedList<>();
 
-        for(Column col: list){
-            if(col.getName().equals("Engine RPM")){
-                rpm = col.getList();
-            }
-            else{
-                for(int i = 0; i < col.getList().size(); i++){
-                    rpm.add(Double.parseDouble(String.valueOf(i)));
-                }
-            }
+        Column column = list.get(0);
+
+        for(int i = 0; i < column.getList().size(); i++) {
+            xLine.add(i);
         }
 
-
-        for(int i = 1; i < list.size(); i++){
-            String name = list.get(i).getName();
+        for (Column value : list) {
+            String name = value.getName();
             var temp = new XYSeries(name);
-            LinkedList<Double> arr = list.get(i).getList();
-            for(int j = 0; j < arr.size(); j++){
-                temp.add(rpm.get(j), arr.get(j));
+            LinkedList<Double> arr = value.getList();
+            for (int j = 0; j < arr.size(); j++) {
+                temp.add(xLine.get(j), arr.get(j));
             }
             var dataset = new XYSeriesCollection();
             dataset.addSeries(temp);
             datasetCol.add(dataset);
         }
-
         return datasetCol;
     }
 }

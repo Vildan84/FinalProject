@@ -19,21 +19,22 @@ import java.util.LinkedList;
 public class Main {
     public static void main(String[] args) throws IOException, TelegramApiException {
 
-//        ReadCSV r = new ReadCSV();
-//        CreateColumn col = new CreateColumn();
-//        XYDataset data = new XYDataset();
-//        Chart chart = new Chart();
-//        String file = "test.CSV";
-//        LinkedList<String[]> array = r.ReadFile(file);
-//        LinkedList<Column> list = col.Columns(array);
+        ReadCSV r = new ReadCSV();
+        CreateColumn col = new CreateColumn();
+        XYDataset data = new XYDataset();
+        Chart chart = new Chart();
+        String file = "/home/vildan/IdeaProjects/FinalProject/LogViewer/src/main/resources/test.csv";
+        LinkedList<String[]> array = r.ReadFile(file);
+
+        LinkedList<Column> list = col.Columns(array);
+
+        LinkedList<XYSeriesCollection> dataset = data.createDataset(list);
+        chart.chart(dataset, list);
+
+//        MyBot bot = new MyBot();
 //
-//        LinkedList<XYSeriesCollection> dataset = data.createDataset(list);
-//        chart.chart(dataset, list);
-
-        MyBot bot = new MyBot();
-
-        TelegramBotsApi tb = new TelegramBotsApi(DefaultBotSession.class);
-        tb.registerBot(bot);
+//        TelegramBotsApi tb = new TelegramBotsApi(DefaultBotSession.class);
+//        tb.registerBot(bot);
 
 
     }
