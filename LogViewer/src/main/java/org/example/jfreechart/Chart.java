@@ -1,17 +1,12 @@
-package jfreechart;
+package org.example.jfreechart;
 
-import csv.Column;
+import org.example.csv.Column;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;

@@ -1,4 +1,6 @@
-package csv;
+package org.example.csv;
+
+import org.example.csv.Column;
 
 import java.util.LinkedList;
 
@@ -7,8 +9,8 @@ public class CreateColumn {
     public LinkedList<Column> Columns(LinkedList<String[]> arr){
         LinkedList<Column> list = new LinkedList<>();
         int index = 0;
-        for(String str: arr.getFirst()){
-            if(!str.equals("") && !str.equals("STAMP")){
+        for(String name: arr.getFirst()){
+            if(!name.equals("") && !name.equals("STAMP")){
                 LinkedList<Double> temp = new LinkedList<>();
                 String value = arr.get(1)[index];
 
@@ -24,7 +26,7 @@ public class CreateColumn {
                         }
                     }
                 }
-                list.add(new Column(str, value, temp));
+                list.add(new Column(name, value, temp));
             }
             index++;
 

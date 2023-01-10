@@ -1,6 +1,6 @@
-package jfreechart;
+package org.example.jfreechart;
 
-import csv.Column;
+import org.example.csv.Column;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
