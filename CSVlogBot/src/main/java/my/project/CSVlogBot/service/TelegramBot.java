@@ -101,6 +101,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
         else if(update.hasCallbackQuery()){
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
+            String user = update.getCallbackQuery().getMessage().getChat().getFirstName();
             String callbackData = update.getCallbackQuery().getData();
 
             if(callbackData.equals("READY")){
@@ -116,12 +117,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                     chart.chart(xyCollection, names.get(chatId), columnsList, chatId);
 
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.error("Error occurred with user: " + user + e.getMessage());
                 }
                 try {
                     sendingPhoto(chatId);
                 } catch (MalformedURLException | FileNotFoundException e) {
-                    throw new RuntimeException(e);
+                    log.error("Error occurred with user: " + user + e.getMessage());
                 }
                 names.remove(chatId);
 

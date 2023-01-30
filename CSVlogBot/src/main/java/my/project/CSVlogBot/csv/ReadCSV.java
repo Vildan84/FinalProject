@@ -3,10 +3,13 @@ package my.project.CSVlogBot.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+@Slf4j
 public class ReadCSV {
 
     public LinkedList<String[]> ReadFile(String filename){
@@ -21,7 +24,7 @@ public class ReadCSV {
 
         }
         catch (IOException | CsvValidationException e){
-            System.out.println(e.getMessage());
+            log.error("Error occurred: " + e.getMessage());
         }
         return arr;
 
