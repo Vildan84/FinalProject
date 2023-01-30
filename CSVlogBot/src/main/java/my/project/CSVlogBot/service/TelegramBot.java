@@ -41,7 +41,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     static final String HELP_Text = "Здесь будет инструкция по использованию бота";
     LinkedList<String> columnNames = new LinkedList<>();
     LinkedList<String[]> list = new LinkedList<>();
-    LinkedList<Column> columnsList = new LinkedList<>();
 
     public TelegramBot(BotConfig config) {
         this.config = config;
@@ -94,7 +93,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             DownloadFile file = new DownloadFile(config);
             sendKeyboard(chatID, readyButton(), "Нажмите READY");
             try {
-                file.GetFile(fileId);
+                file.GetFile(fileId, chatID);
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -103,11 +102,13 @@ public class TelegramBot extends TelegramLongPollingBot {
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
             String callbackData = update.getCallbackQuery().getData();
             if(callbackData.equals("READY")){
-                list = cs.ReadFile(config.getPath() + config.getFilename());
-                columnsList = columns.Columns(list);
+                list = cs.ReadFile(config.getPath() + chatId);
+                LinkedList<Column> columnsList = new LinkedList<>(columns.Columns(list));
                 sendKeyboard(chatId, buttons.createButtons(columnsList), "Выберите необходимые колонки для построения графика");
             }
             else if(callbackData.equals("MAKE_CHART")){
+                list = cs.ReadFile(config.getPath() + chatId);
+                LinkedList<Column> columnsList = new LinkedList<>(columns.Columns(list));
                 xyCollection = dataset.createDataset(columnsList, columnNames);
                 try {
                     chart.chart(xyCollection, columnNames, columnsList);

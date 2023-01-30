@@ -19,7 +19,7 @@ public class DownloadFile {
         this.config = config;
     }
 
-    public void GetFile(String file_id) throws IOException, ParseException {
+    public void GetFile(String file_id, Long chat_id) throws IOException, ParseException {
 
         URL url = new URL("https://api.telegram.org/bot"+config.getToken()+"/getFile?file_id="+file_id);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -31,7 +31,7 @@ public class DownloadFile {
         JSONObject path = (JSONObject) jsonObj.get("result");
         String file_path = path.get("file_path").toString();
 
-        File localfile = new File(config.getPath() + config.getFilename());
+        File localfile = new File(config.getPath() + chat_id);
         InputStream is = new URL("https://api.telegram.org/file/bot"+config.getToken()+"/"+file_path).openStream();
         FileUtils.copyInputStreamToFile(is, localfile);
 
