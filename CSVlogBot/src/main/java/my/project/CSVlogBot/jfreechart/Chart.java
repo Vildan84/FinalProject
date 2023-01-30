@@ -23,7 +23,8 @@ public class Chart {
         this.config = config;
     }
 
-    public void chart(XYSeriesCollection dataset, LinkedList<String> nameList, LinkedList<Column> col) throws IOException {
+    public void chart(XYSeriesCollection dataset, LinkedList<String> nameList, LinkedList<Column> col,
+                      Long chatID) throws IOException {
 
         String name = nameList.get(0);
         String value = "";
@@ -36,7 +37,7 @@ public class Chart {
         JFreeChart ch = ChartFactory.createXYLineChart(name, "Value", value, dataset,
                 PlotOrientation.VERTICAL, true, true, false);
 
-            File file = new File(config.getPath() + config.getPhoto());
+            File file = new File(config.getPath() + chatID + ".jpg");
             ChartUtils.saveChartAsJPEG(file, ch, 1300, 800);
 
 //        XYPlot plot = ch.getXYPlot();

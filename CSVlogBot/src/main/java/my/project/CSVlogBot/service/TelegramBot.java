@@ -29,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     final BotConfig config;
     static final String HELP_Text = "Здесь будет инструкция по использованию бота";
-    LinkedList<String> columnNames = new LinkedList<>();
+    HashMap<Long, LinkedList<String>> names = new HashMap<>();
     LinkedList<String[]> list = new LinkedList<>();
 
     public TelegramBot(BotConfig config) {
@@ -101,6 +102,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         else if(update.hasCallbackQuery()){
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
             String callbackData = update.getCallbackQuery().getData();
+
             if(callbackData.equals("READY")){
                 list = cs.ReadFile(config.getPath() + chatId);
                 LinkedList<Column> columnsList = new LinkedList<>(columns.Columns(list));
@@ -109,9 +111,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             else if(callbackData.equals("MAKE_CHART")){
                 list = cs.ReadFile(config.getPath() + chatId);
                 LinkedList<Column> columnsList = new LinkedList<>(columns.Columns(list));
-                xyCollection = dataset.createDataset(columnsList, columnNames);
+                xyCollection = dataset.createDataset(columnsList, names.get(chatId));
                 try {
-                    chart.chart(xyCollection, columnNames, columnsList);
+                    chart.chart(xyCollection, names.get(chatId), columnsList, chatId);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -121,12 +123,21 @@ public class TelegramBot extends TelegramLongPollingBot {
                 } catch (MalformedURLException | FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-                columnNames.clear();
+                names.remove(chatId);
 
             }
             else{
                 String columnName = update.getCallbackQuery().getData();
-                columnNames.add(columnName);
+
+                if (names.containsKey(chatId)){
+                    names.get(chatId).add(columnName);
+                }
+                else{
+                    LinkedList<String> l = new LinkedList<>();
+                    l.add(columnName);
+                    names.put(chatId, l);
+                }
+
             }
         }
 
@@ -168,7 +179,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private void sendingPhoto(Long chatID) throws MalformedURLException, FileNotFoundException {
         SendPhoto photo = new SendPhoto();
-        File file = ResourceUtils.getFile(config.getPath() + config.getPhoto());
+        File file = ResourceUtils.getFile(config.getPath() + chatID + ".jpg");
         InputFile inputFile = new InputFile(file);
         photo.setChatId(chatID);
         photo.setPhoto(inputFile);
