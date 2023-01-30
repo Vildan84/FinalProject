@@ -20,7 +20,6 @@ public class CreateColumn {
                 list.add(new Column(name, value, temp));
             }
             index++;
-
         }
         return list;
 

@@ -15,7 +15,9 @@ public class BotConfig {
     @Value("${bot.token}")
     String token;
     @Value("${file.path}")
-    String src;
+    String path;
     @Value("${file.name}")
     String filename;
+    @Value("${photo.name}")
+    String photo;
 }

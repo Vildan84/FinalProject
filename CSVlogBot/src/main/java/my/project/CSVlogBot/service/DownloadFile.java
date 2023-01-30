@@ -31,7 +31,7 @@ public class DownloadFile {
         JSONObject path = (JSONObject) jsonObj.get("result");
         String file_path = path.get("file_path").toString();
 
-        File localfile = new File(config.getSrc() + config.getFilename());
+        File localfile = new File(config.getPath() + config.getFilename());
         InputStream is = new URL("https://api.telegram.org/file/bot"+config.getToken()+"/"+file_path).openStream();
         FileUtils.copyInputStreamToFile(is, localfile);
 
