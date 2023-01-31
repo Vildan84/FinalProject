@@ -39,7 +39,11 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingBot {
 
     final BotConfig config;
-    static final String HELP_Text = "Здесь будет инструкция по использованию бота";
+    static final String HELP_Text = """
+            1. Введите /start и следуйте инструкциям
+            2. После получения списка колонок, выберете одну или несколько колонок и нажмите кнопку MAKE CHART
+            3. Вы можете продолжать работать с текущим логом пока не загрузите новый
+            4. Пока знак часовой стрелки присутствует на кнопке, кнопка занята, дождитесь когда знак исчезнет для дальнейшей работы""";
     HashMap<Long, LinkedList<String>> names = new HashMap<>();
     LinkedList<String[]> list = new LinkedList<>();
 
@@ -107,7 +111,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             if(callbackData.equals("READY")){
                 list = cs.ReadFile(config.getPath() + chatId);
                 LinkedList<Column> columnsList = new LinkedList<>(columns.Columns(list));
-                sendKeyboard(chatId, buttons.createButtons(columnsList), "Выберите необходимые колонки для построения графика");
+                sendKeyboard(chatId, buttons.createButtons(columnsList), "Выбери необходимые колонки для построения графика");
             }
             else if(callbackData.equals("MAKE_CHART")){
                 list = cs.ReadFile(config.getPath() + chatId);
@@ -189,7 +193,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             execute(photo);
         }
         catch (TelegramApiException e){
-            System.out.println("file is empty");
+            log.error("Error occurred, file is empty: " + e.getMessage());
         }
     }
 
